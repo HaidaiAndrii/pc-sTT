@@ -1,0 +1,25 @@
+<div *ngIf="todosService.todos.length; else emptyBlock">
+  <ul class="list">
+    <li class="list__item" *ngFor="let todo of todosService.todos; let i = index">
+      <span [class.done]="todo.completed">
+        <input 
+          type="checkbox"
+          class="list__checkbox"
+          [checked]="todo.completed"
+          (change)="onChange(todo.id)"
+          >
+          {{ todo.id }}
+          {{ todo.title }}
+      </span>
+      <small class="list__date">
+        {{ todo.date | date:'medium' }}
+      </small>
+
+      <button class="rm" (click)="removeTodo(todo.id)">&times;</button>
+    </li>
+  </ul>
+</div>
+
+<ng-template #emptyBlock>
+  <p class="empty">List is empty!</p>
+</ng-template>

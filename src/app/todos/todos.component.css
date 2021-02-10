@@ -1,0 +1,46 @@
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0 0;
+}
+
+.list__item {
+  position: relative;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: .5rem 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.list__checkbox {
+  margin-right: 1rem;
+}
+
+.list__date {
+  position: absolute;
+  right: 40px;
+  bottom: 5px;
+  font-size: .8rem;
+}
+
+.done {
+  text-decoration: line-through;
+}
+
+.rm {
+  color: rgb(158, 12, 12);
+  background-color: #ccc;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+}
+
+.rm:hover {
+  color: #fff;
+  background-color: rgb(112, 3, 3);
+}
+
+.empty {
+  text-align: center;
+}
