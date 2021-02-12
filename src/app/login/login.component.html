@@ -1,1 +1,5 @@
-<p>login works!</p>
+<div *ngIf="!todosService.isLogined" class="login__block">
+  <input type="text" class="login__input" placeholder="Login" id="login__name" [(ngModel)]="userName">
+  <input type="password" class="login__input" placeholder="password" id="login__pass" [(ngModel)]="userPass">
+  <button type="button" class="login__confirm" (click)="fetchLogin()">Login</button>
+</div>

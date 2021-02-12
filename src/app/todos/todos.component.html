@@ -1,14 +1,14 @@
-<div *ngIf="todosService.todos.length; else emptyBlock">
-  <ul class="list">
-    <li class="list__item" *ngFor="let todo of todosService.todos; let i = index">
+<div *ngIf="todosService.isLogined">
+  <h2>Logined as {{todosService.userLogined.name}}</h2>
+  <ul class="list" *ngIf="todosService.todos.length; else emptyBlock">
+    <li class="list__item" *ngFor="let todo of todosService.todos; let i = index" [class]="todo.class">
       <span [class.done]="todo.completed">
-        <input 
+        <input
           type="checkbox"
           class="list__checkbox"
           [checked]="todo.completed"
           (change)="onChange(todo.id)"
-          >
-          {{ todo.id }}
+        >
           {{ todo.title }}
       </span>
       <small class="list__date">
