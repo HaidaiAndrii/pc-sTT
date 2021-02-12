@@ -1,0 +1,13 @@
+<div class="create__form" *ngIf="todosService.isLogined">
+  <form>
+    <input type="text" class="input" placeholder="Title of task" [(ngModel)]="title" [ngModelOptions]="{standalone: true}">
+    <label class="label">Chose user</label>
+    <select [(ngModel)]="user" [ngModelOptions]="{standalone: true}" class="input">
+      <option *ngFor="let user of users" [ngValue]="user" ng-selected="user">{{user}}</option>
+    </select>
+    <div>
+      <button type="button" (click)="cansel()" class="button cansel">Remove</button>
+      <button type="button" (click)="addToList()" class="button confirm">Create</button>
+    </div>
+  </form>
+</div>
