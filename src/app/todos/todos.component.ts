@@ -9,19 +9,22 @@ import { TodoService } from '../shared/todos.service';
 export class TodosComponent implements OnInit {
   
   constructor(public todosService: TodoService) { }
-  
+  searchStr = '';
+  isDoneOnly = false;
+  isPlannedOnly = false;
+  myOnly = false;
+  anotherOnly = false;
+
+
   ngOnInit(): void {
     //localStorage.removeItem('all-todos');
-    //console.log('todos form is created')
   }
   
   onChange(id: number) {
-    //this.todosService.onToggle(id);
-    this.todosService.checkTicket(id).subscribe(data => console.log(data));
+    this.todosService.checkTicket(id).subscribe(data => data, error => {error = error.message; console.log(error)});
   }
 
   removeTodo(id: number) {
-    //this.todosService.removeTodo(id);
-    this.todosService.delTicket( this.todosService.userLogined.id, id).subscribe(data => data);
+    this.todosService.delTicket( this.todosService.userLogined.id, id).subscribe(data => data, error => {error = error.message; console.log(error)});
   }
 }

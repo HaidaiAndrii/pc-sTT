@@ -21,10 +21,9 @@ export class LoginComponent implements OnInit {
   }
   
   public createUsers() {
-    console.log('creating users...');
     //localStorage.removeItem('tt-users');
     if (!localStorage.getItem('tt-users')) {
-      localStorage.setItem('tt-users', JSON.stringify([{'id': '1', 'name': 'user1', 'pass':'user1'}, {'id': '2', 'name':'user2', 'pass':'user2'}]));
+      localStorage.setItem('tt-users', JSON.stringify([{'id': '0', 'name': 'admin', 'pass' : 'admin'}, {'id': '1', 'name': 'user1', 'pass':'user1'}, {'id': '2', 'name':'user2', 'pass':'user2'}]));
     }
 
     if(!localStorage.getItem('all-todos')) {
@@ -34,6 +33,6 @@ export class LoginComponent implements OnInit {
 
   public fetchLogin() {
     let user = {name: this.userName, pass: this.userPass}
-    this.todosService.login(user).subscribe(data => console.log(data));
+    this.todosService.login(user).subscribe(data => data, error => {error = error.message; console.log(error);});
   }
 }

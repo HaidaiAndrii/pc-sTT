@@ -1,7 +1,20 @@
 <div *ngIf="todosService.isLogined">
-  <h2>Logined as {{todosService.userLogined.name}}</h2>
   <ul class="list" *ngIf="todosService.todos.length; else emptyBlock">
-    <li class="list__item" *ngFor="let todo of todosService.todos; let i = index" [class]="todo.class">
+    <section class="filter-section">
+      <input type="text" [(ngModel)]="searchStr" placeholder="Search by title" class="input">
+      <input type="checkbox" [(ngModel)]="isDoneOnly" name="completeType">Only completed
+      <input type="checkbox" [(ngModel)]="isPlannedOnly" name="completeType">Only planned
+      <input type="checkbox" [(ngModel)]="myOnly" name="createdBy">My tickets only
+      <input type="checkbox" [(ngModel)]="anotherOnly" name="createdBy">another user tickets only
+    </section>
+      <li class="list__item" 
+      *ngFor="let todo of todosService.todos
+        | todosFilter:searchStr
+        |doneTodosFilter:isDoneOnly
+        |plannedTodosFilter:isPlannedOnly
+        |myTodosFilter:myOnly
+        |anotherTodosFilter:anotherOnly
+        ; let i = index" [class]="todo.class">
       <span [class.done]="todo.completed">
         <input
           type="checkbox"
@@ -15,7 +28,7 @@
         {{ todo.date | date:'medium' }}
       </small>
 
-      <button class="rm" (click)="removeTodo(todo.id)">&times;</button>
+      <button class="rm" (click)="removeTodo(todo.id)" *ngIf="todosService.isLoginedAdmin">&times;</button>
     </li>
   </ul>
 </div>

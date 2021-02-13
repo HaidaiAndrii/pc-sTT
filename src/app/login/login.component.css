@@ -40,11 +40,20 @@
   cursor: pointer;
 }
 
-.login__confirm:hover,.login__confirm:active,.login__confirm:focus {
-  background: #43A047;
-}
+  .login__confirm:active {
+    color: black;
+    background-color: rgb(64, 209, 50);
+  }
+
+  .login__confirm:hover {
+    background: #1f5c22;
+  }
+
 
 .label {
   font-family: "Roboto", sans-serif;
+}
 
+.error {
+  color: rgb(202, 32, 32);
 }

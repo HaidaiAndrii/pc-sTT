@@ -16,6 +16,8 @@ export class CreateFormComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  titleError = false;
+
   public addToList() {
     const todo: Todo = {
       title: this.title,
@@ -31,8 +33,12 @@ export class CreateFormComponent implements OnInit {
       todo.class = 'my';
     }
 
-    //this.todosService.addTodo(todo);
-    this.todosService.createTicket(todo).subscribe(data => console.log(data));
+    if(this.title.length > 0) {
+      this.todosService.createTicket(todo).subscribe(data => data, error => {error = error.message; console.log(error)});
+      this.titleError = false;
+    } else {
+      this.titleError = true;
+    }
 
     this.cansel();
   }

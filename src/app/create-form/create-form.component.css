@@ -1,3 +1,12 @@
+.create__form {
+  border-bottom: 1px solid rgb(179, 157, 157);
+}
+
+.create__buttons {
+  display: flex;
+  justify-content: space-around;
+}
+
 .button {
   outline: 0;
   background: #4CAF50;
@@ -9,14 +18,24 @@
   -webkit-transition: all 0.3 ease;
   transition: all 0.3 ease;
   cursor: pointer;
-}
-
-.cansel {
-  background-color: rgb(165, 42, 42);
+  margin-bottom: 20px;
 }
 
 .confirm {
   background-color: #4CAF50;
+}
+
+.confirm:hover {
+  background: #1f5c22;
+}
+
+.confirm:active {
+  color: black;
+  background-color: rgb(64, 209, 50);
+}
+
+.cansel {
+  background-color: rgb(165, 42, 42);
 }
 
 .input {
@@ -29,4 +48,8 @@
   padding: 15px;
   box-sizing: border-box;
   font-size: 14px;
+}
+
+.error {
+  color: rgb(202, 32, 32);
 }

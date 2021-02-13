@@ -2,6 +2,7 @@
   list-style: none;
   padding: 0;
   margin: 1rem 0 0 0;
+  font-family: "Roboto", sans-serif;
 }
 
 .list__item {
@@ -47,4 +48,18 @@
 
 .someones {
   background-color: rgb(194, 135, 69);
+}
+
+.filter-section {
+  border: 1px solid black;
+  font-family: "Roboto", sans-serif;
+}
+
+.input {
+  outline: 0;
+  background: #f2f2f2;
+  border: 0;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
 }
