@@ -5,13 +5,16 @@ import {Todo} from './todos.service';
   name: 'todosFilter'
 })
 export class TodosFilterPipe implements PipeTransform {
-transform(todos: Todo[], search: string = '' ): Todo[] {
+  transform(todos: Todo[], search: string = '' ): Todo[] {
 
-  if(!search.trim()) {
-    return todos;
+    if (!search.trim()) {
+      return todos;
+    }
+
+    return todos.filter(todo => {
+      return todo.title.toLowerCase().indexOf(search.toLowerCase()) !== -1;
+    });
   }
-    return todos.filter(todo => todo.title.toLowerCase().indexOf(search.toLowerCase()) !== -1);
-}
 }
 
 @Pipe({
@@ -20,7 +23,7 @@ transform(todos: Todo[], search: string = '' ): Todo[] {
 export class DoneTodosFilterPipe implements PipeTransform {
   transform(todos: Todo[], isDoneOnly: boolean = false): Todo[] {
 
-    if(isDoneOnly) {
+    if (isDoneOnly) {
       return todos.filter(todo => todo.completed === true);
     }
 
@@ -34,7 +37,7 @@ export class DoneTodosFilterPipe implements PipeTransform {
 export class PlannedTodosFilterPipe implements PipeTransform {
   transform(todos: Todo[], isPlannedOnly: boolean = false): Todo[] {
 
-    if(isPlannedOnly) {
+    if (isPlannedOnly) {
       return todos.filter(todo => todo.completed === false);
     }
 
@@ -48,7 +51,7 @@ export class PlannedTodosFilterPipe implements PipeTransform {
 export class MyTodosFilterPipe implements PipeTransform {
   transform(todos: Todo[], myOnly: boolean = false): Todo[] {
 
-    if(myOnly) {
+    if (myOnly) {
       return todos.filter(todo => todo.class === 'my');
     }
 
@@ -62,7 +65,7 @@ export class MyTodosFilterPipe implements PipeTransform {
 export class AnotherTodosFilterPipe implements PipeTransform {
   transform(todos: Todo[], anotherOnly: boolean = false): Todo[] {
 
-    if(anotherOnly) {
+    if (anotherOnly) {
       return todos.filter(todo => todo.class === 'someones');
     }
 

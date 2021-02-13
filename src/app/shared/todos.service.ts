@@ -2,50 +2,51 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { empty, identity, Observable } from 'rxjs';
 import {HttpEvent, HttpInterceptor, HttpHandler, HttpRequest} from '@angular/common/http';
+import { promise } from 'protractor';
 
 @Injectable()
-export class reqInterceptor implements HttpInterceptor {
+export class ReqInterceptor implements HttpInterceptor {
 constructor(private todoService: TodoService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if(req.method === 'POST'&& req.url=== '/ticket') {
+    if (req.method === 'POST' && req.url === '/ticket') {
      this.todoService.addTodo(req.body.todo);
     }
 
-    if(req.method === "POST" && req.url === "/login") {
+    if (req.method === 'POST' && req.url === '/login') {
         this.todoService.setLoginUser(req.body.user);
       }
 
-      if(req.method === "GET") {
-        this.todoService.getUserTickets(this.todoService.userLogined.id);
-      }
+    if (req.method === 'GET') {
+       this.todoService.getUserTickets(this.todoService.userLogined.id);
+    }
 
-      if(req.method === "PUT") {
-        this.todoService.onToggle(req.body.ticketId);
-      }
+    if (req.method === 'PUT') {
+      this.todoService.onToggle(req.body.ticketId);
+    }
 
-      if(req.method === "DELETE") {
-        let id = req.url.split('/');
-        this.todoService.removeTodo(+id[id.length-1]);
-      }
+    if (req.method === 'DELETE') {
+      const id = req.url.split('/');
+      this.todoService.removeTodo(+id[id.length - 1]);
+    }
 
     return Observable.create(empty);
   }
 }
 
 export interface Todo {
-  id: number
-  title: string
-  completed: boolean
-  date?: any
-  user: string
-  class?: string
+  id: number;
+  title: string;
+  completed: boolean;
+  date?: any;
+  user: string;
+  class?: string;
 }
 
 export interface User {
-  id: number
-  name: string
-  pass: string
+  id: number;
+  name: string;
+  pass: string;
 }
 
 @Injectable({providedIn: 'root'})
@@ -54,78 +55,80 @@ export class TodoService {
   public todos: Todo[] = JSON.parse(localStorage.getItem('all-todos'));
   loginError = false;
   isLogined = false;
-  userLogined: User = {id:0, name: '', pass: ''};
+  userLogined: User = {id: 0, name: '', pass: ''};
   isLoginedAdmin = false;
 
   constructor(private http: HttpClient) {}
 
-  createTicket(todo: Todo) {
-    return this.http.post('/ticket', {user: this.userLogined.id, todo: todo} );
+  createTicket(todo: Todo): any{
+    return this.http.post('/ticket', {user: this.userLogined.id, todo: todo});
   }
 
-  getTickets(id) {
-    return this.http.get('/tickets', {headers: id})
+  getTickets(id: number): any {
+    return this.http.get(`/tickets/${id}`);
   }
 
-  login(user) {
+  login(user: object): any {
     return this.http.post('/login', {user: user});
   }
 
-  checkTicket(todoId) {
+  checkTicket(todoId: number): any {
     return this.http.put('/ticket', {userId: this.userLogined.id, ticketId: todoId});
   }
 
-  delTicket(userId, ticketId) {
-    return this.http.delete(`/ticket/${userId}/${ticketId}`)
+  delTicket(userId: number, ticketId: number): any {
+    return this.http.delete(`/ticket/${userId}/${ticketId}`);
   }
 
-  onToggle(id: number) {
+  onToggle(id: number): void {
     const index = this.todos.findIndex(todo => todo.id === id);
     this.todos[index].completed = !this.todos[index].completed;
     localStorage.setItem('all-todos', JSON.stringify(this.todos));
   }
-  
-  removeTodo(id: number) {
+
+  removeTodo(id: number): void {
     this.todos = this.todos.filter(todo => todo.id !== id);
     localStorage.setItem('all-todos', JSON.stringify(this.todos));
-    if(this.userLogined.name !== 'admin') {
+    if (this.userLogined.name !== 'admin') {
       this.todos = this.filter();
     }
   }
 
-  addTodo(todo: Todo) {
+  addTodo(todo: Todo): void {
     this.todos = JSON.parse(localStorage.getItem('all-todos'));
     this.todos.push(todo);
     localStorage.setItem('all-todos', JSON.stringify(this.todos));
-    if(this.userLogined.name !== 'admin') {
+    if (this.userLogined.name !== 'admin') {
       this.todos = this.filter();
     }
   }
 
-  public filter() {
+  public filter(): Todo[] {
     return this.todos.filter(todo => todo.user === this.userLogined.name);
   }
 
-  public setLoginUser(logUser) {
-    let users = JSON.parse(localStorage.getItem('tt-users'));
+  public setLoginUser(logUser: any): void {
+    const users = JSON.parse(localStorage.getItem('tt-users'));
     users.map( user => {
       if (user.name === logUser.name && user.pass === logUser.name) {
         this.isLogined = true;
         this.userLogined = user;
-        this.getTickets(user.id).subscribe(data => data, error => {error = error.message; console.log(error)});
+        this.getTickets(user.id)
+          .subscribe(data => data, error => (error = error.message));
         this.loginError = false;
-        if(logUser.name === 'admin') {
+        if (logUser.name === 'admin') {
           this.isLoginedAdmin = true;
         }
       }
-        this.loginError = true;
+
+      this.loginError = true;
     });
   }
 
-  public getUserTickets(id) {
-    let users = JSON.parse(localStorage.getItem('tt-users'));
-    let user = users.find(user => user.id === id);
-    if(this.todos && user.name !== 'admin') {
+  public getUserTickets(id: number): void {
+    const users = JSON.parse(localStorage.getItem('tt-users'));
+    const user = users.find(usr => usr.id === id);
+    if (this.todos && user.name !== 'admin') {
       this.todos = this.todos.filter(todo => todo.user === user.name);
     }
   }

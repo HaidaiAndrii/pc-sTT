@@ -1,10 +1,33 @@
-
 <div *ngIf="!todosService.isLogined" class="login__block">
   <h2>Login...</h2>
   <form>
-    <input type="text" class="login__input" placeholder="Login" id="login__name" [(ngModel)]="userName" [ngModelOptions]="{standalone: true}">
-    <input type="password" class="login__input" placeholder="password" id="login__pass" [(ngModel)]="userPass" [ngModelOptions]="{standalone: true}"  autocomplete="on">
-    <button type="button" class="login__confirm" (click)="fetchLogin()">Login</button>
-    <span class="error" *ngIf="todosService.loginError"> Please, enter the correct login and password</span>
+    <input
+      type="text"
+      class="login__input"
+      placeholder="Login"
+      id="login__name"
+      [(ngModel)]="userName"
+      [ngModelOptions]="{standalone: true}"
+    >
+    <input
+      type="password"
+      class="login__input"
+      placeholder="password"
+      id="login__pass"
+      [(ngModel)]="userPass"
+      [ngModelOptions]="{standalone: true}"
+      autocomplete="on"
+      (keydown.enter)="fetchLogin()"
+    >
+    <button
+      type="button"
+      class="login__confirm"
+      (click)="fetchLogin()"
+    >
+      Login
+    </button>
+    <span class="error" *ngIf="todosService.loginError">
+      Please, enter the correct login and password
+    </span>
   </form>
 </div>

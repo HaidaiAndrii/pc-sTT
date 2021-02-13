@@ -2,7 +2,6 @@
     width: 360px;
     padding: 8% 0 0;
     margin: auto;
-
     position: relative;
     z-index: 1;
     background: #FFFFFF;
@@ -48,7 +47,6 @@
   .login__confirm:hover {
     background: #1f5c22;
   }
-
 
 .label {
   font-family: "Roboto", sans-serif;

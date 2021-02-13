@@ -1,16 +1,46 @@
 <div class="create__form" *ngIf="todosService.isLogined">
-  <h2>Logined as {{todosService.userLogined.name}}</h2>
+  <h2>
+    Logined as {{todosService.userLogined.name}}
+  </h2>
   <form>
     Enter a name
-    <input type="text" class="input" placeholder="Title of task" [(ngModel)]="title" [ngModelOptions]="{standalone: true}">
+    <input type="text"
+      class="input"
+      placeholder="Title of task"
+      [(ngModel)]="title"
+      [ngModelOptions]="{standalone: true}"
+      (keydown.enter)="addToList()"
+    >
     <span class="error" *ngIf="titleError">Title is empty<br></span>
     <span class="label">Select a user</span>
-    <select [(ngModel)]="user" [ngModelOptions]="{standalone: true}" class="input">
-      <option *ngFor="let user of users" [ngValue]="user" ng-selected="user">{{user}}</option>
+    <select
+      [(ngModel)]="user"
+      [ngModelOptions]="{standalone: true}"
+      class="input"
+    >
+      <option
+        *ngFor="let user of users"
+        [ngValue]="user"
+        ng-selected="user"
+      >
+        {{user}}
+      </option>
     </select>
     <div class="create__buttons">
-      <button type="button" (click)="cansel()" class="button cansel">Remove</button>
-      <button type="button" (click)="addToList()" class="button confirm">Create</button>
+      <button
+        type="button"
+        (click)="cansel()"
+        class="button cansel"
+      >
+        Remove
+      </button>
+      <button
+        type="button"
+        (click)="addToList()"
+        class="button confirm"
+      >
+        Create
+      </button>
     </div>
   </form>
 </div>

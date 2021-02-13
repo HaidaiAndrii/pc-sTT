@@ -51,6 +51,9 @@
 }
 
 .filter-section {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
   border: 1px solid black;
   font-family: "Roboto", sans-serif;
 }

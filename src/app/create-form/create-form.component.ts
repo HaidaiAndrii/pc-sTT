@@ -6,26 +6,26 @@ import { Todo, TodoService } from '../shared/todos.service';
   templateUrl: './create-form.component.html',
   styleUrls: ['./create-form.component.css']
 })
+
 export class CreateFormComponent implements OnInit {
-  title ='';
+  title = '';
   user = 'user1';
   users = ['user1', 'user2'];
+  titleError = false;
 
   constructor(public todosService: TodoService) { }
 
   ngOnInit(): void {
   }
 
-  titleError = false;
-
-  public addToList() {
+  public addToList(): void {
     const todo: Todo = {
       title: this.title,
       id: Date.now(),
       completed: false,
       date: new Date(),
       user: this.user,
-    }
+    };
 
     if (this.todosService.userLogined.name !== todo.user) {
       todo.class = 'someones';
@@ -33,8 +33,9 @@ export class CreateFormComponent implements OnInit {
       todo.class = 'my';
     }
 
-    if(this.title.length > 0) {
-      this.todosService.createTicket(todo).subscribe(data => data, error => {error = error.message; console.log(error)});
+    if (this.title.length > 0) {
+      this.todosService.createTicket(todo)
+        .subscribe(data => data, error => (error = error.message));
       this.titleError = false;
     } else {
       this.titleError = true;
@@ -43,8 +44,8 @@ export class CreateFormComponent implements OnInit {
     this.cansel();
   }
 
-  cansel() {
-    this.title='';
-    this.user='user1';
+  cansel(): void {
+    this.title = '';
+    this.user = 'user1';
   }
 }

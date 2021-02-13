@@ -7,7 +7,7 @@ import { TodoService } from '../shared/todos.service';
   styleUrls: ['./todos.component.css']
 })
 export class TodosComponent implements OnInit {
-  
+
   constructor(public todosService: TodoService) { }
   searchStr = '';
   isDoneOnly = false;
@@ -17,14 +17,15 @@ export class TodosComponent implements OnInit {
 
 
   ngOnInit(): void {
-    //localStorage.removeItem('all-todos');
-  }
-  
-  onChange(id: number) {
-    this.todosService.checkTicket(id).subscribe(data => data, error => {error = error.message; console.log(error)});
   }
 
-  removeTodo(id: number) {
-    this.todosService.delTicket( this.todosService.userLogined.id, id).subscribe(data => data, error => {error = error.message; console.log(error)});
+  onChange(id: number): void {
+    this.todosService.checkTicket(id)
+      .subscribe(data => data, error => (error = error.message));
+  }
+
+  removeTodo(id: number): void {
+    this.todosService.delTicket(this.todosService.userLogined.id, id)
+      .subscribe(data => data, error => (error = error.message));
   }
 }
