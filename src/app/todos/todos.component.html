@@ -1,0 +1,94 @@
+<div *ngIf="todosService.isLogined">
+  <ul class="list" *ngIf="todosService.todos.length; else emptyBlock">
+    <section class="filter-section">
+      <div>
+        <input
+          type="text"
+          [(ngModel)]="searchStr"
+          placeholder="Search by title"
+          class="input"
+        >
+        </div>
+      <div>
+        <input
+          type="checkbox"
+          [(ngModel)]="isDoneOnly"
+          id="completeTypeDone"
+        >
+        <label for="completeTypeDone">
+          Only completed
+        </label>
+      </div>
+      <div>
+        <input
+          type="checkbox"
+          [(ngModel)]="isPlannedOnly"
+          id="completeTypePlanned"
+        >
+        <label for="completeTypePlanned">
+          Only planned
+        </label>
+      </div>
+      <div>
+        <input
+          type="checkbox"
+          *ngIf="!todosService.isLoginedAdmin"
+          [(ngModel)]="myOnly"
+          name="createdBy"
+        >
+        <span *ngIf="!todosService.isLoginedAdmin">
+          My tickets only
+        </span>
+      </div>
+      <div>
+        <input
+          type="checkbox"
+          *ngIf="!todosService.isLoginedAdmin"
+          [(ngModel)]="anotherOnly" name="createdBy"
+        >
+        <span *ngIf="!todosService.isLoginedAdmin">
+          another user tickets only
+        </span>
+      </div>
+    </section>
+    <li
+      class="list__item" 
+      *ngFor="let todo of todosService.todos
+        | todosFilter:searchStr
+        |doneTodosFilter:isDoneOnly
+        |plannedTodosFilter:isPlannedOnly
+        |myTodosFilter:myOnly
+        |anotherTodosFilter:anotherOnly;
+        let i = index"
+      [class]="todo.class"
+    >
+      <span [class.done]="todo.completed">
+        <input
+          type="checkbox"
+          class="list__checkbox"
+          [checked]="todo.completed"
+          (change)="onChange(todo.id)"
+        >
+        {{ todo.title }}
+      </span>
+      <span *ngIf="todosService.isLoginedAdmin">
+        {{todo.user}}
+      </span>
+      <small class="list__date">
+        {{ todo.date | date:'medium' }}
+      </small>
+
+      <button
+        class="rm"
+        (click)="removeTodo(todo.id)"
+        *ngIf="todosService.isLoginedAdmin"
+      >
+        &times;
+      </button>
+    </li>
+  </ul>
+</div>
+
+<ng-template #emptyBlock>
+  <p class="empty">List is empty!</p>
+</ng-template>
